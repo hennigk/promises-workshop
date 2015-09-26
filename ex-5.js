@@ -56,10 +56,6 @@ getWordList().spread(
             }
         );
     }
-).then(
-    function(arrayOfSynonmyms){
-        return arrayOfSynonmyms;
-    }
 ).map(
     function(synArray){
         return (objectToArray(synArray));
