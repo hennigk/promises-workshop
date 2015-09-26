@@ -2,9 +2,8 @@ var Promise = require("bluebird");
 var colors = require('colors');
 var request = Promise.promisifyAll(require("request"));
 var prompt = Promise.promisifyAll(require("prompt"));
-
 var thesHttp = "http://words.bighugelabs.com/api/2/7ec1db38be2bf9e9685a75e32f94a75d/";
-// Use request.getAsync(...)
+
 
 prompt.getAsync("word").then(function(input){
     return request.getAsync(thesHttp + input.word + "/json");
@@ -28,4 +27,8 @@ prompt.getAsync("word").then(function(input){
             console.log("#" + i + " " + body.noun.syn[i].rainbow);
         }
     }
-})
+}).catch(
+    function(error){
+        console.log("Oh No! There was a " + error.name + "!");
+    }
+);
