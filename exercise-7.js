@@ -5,8 +5,8 @@ var prompt = Promise.promisifyAll(require("prompt"));
 var emoji = require('node-emoji');
 
 var forecastKey = "https://api.forecast.io/forecast/d08be02eb8dd0c8d8985013914ef10df/";
-var mapUrlStart = "https://maps.googleapis.com/maps/api/geocode/json?address="
-var mapUrlEnd = "&key=AIzaSyCyJgwsFhRRPWDik2jba7YRWU45soLDtwY"
+var mapUrlStart = "https://maps.googleapis.com/maps/api/geocode/json?address=";
+var mapUrlEnd = "&key=AIzaSyCyJgwsFhRRPWDik2jba7YRWU45soLDtwY";
 
 
 
