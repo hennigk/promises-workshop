@@ -1,6 +1,6 @@
 var Promise = require("bluebird");
 var Table = require('cli-table');
-var request = Promise.promisify(require("request"));
+var request = Promise.promisifyAll(require("request"));
 var prompt = Promise.promisifyAll(require("prompt"));
 var emoji = require('node-emoji');
 
@@ -8,30 +8,24 @@ var forecastKey = "https://api.forecast.io/forecast/d08be02eb8dd0c8d8985013914ef
 var mapUrlStart = "https://maps.googleapis.com/maps/api/geocode/json?address=";
 var mapUrlEnd = "&key=AIzaSyCyJgwsFhRRPWDik2jba7YRWU45soLDtwY";
 
-
-
 function getCity(){
-    return new Promise(function(resolve){
-        prompt.getAsync("city").then(
-            function(response) {
-                resolve(response);
-            });
-        }
-    );
+    return prompt.getAsync("city");
 }
+
 getCity()
     .then(
         function(location){
-            return request(mapUrlStart + location.city + mapUrlEnd);    
+            return request.getAsync(mapUrlStart + location.city + mapUrlEnd);    
         }
     ).spread(
         function(response, body){
             return JSON.parse(body);
         }
-    ).catch(
-        TypeError, function(error){
-            console.log("No results found for your input " + error.name);
-        }
+    // ).catch(
+    //     TypeError, function(error){
+    //         console.log(error)
+    //         console.log("No location found for your input " + error.name);
+    //     }
     ).catch(
         function(error){
             console.log("Error: " + error);
@@ -44,7 +38,7 @@ getCity()
         function(location) {
             var lat = location.lat.toFixed(2);
             var long = location.lng.toFixed(2);
-            return request(forecastKey + lat + "," + long);
+            return request.getAsync(forecastKey + lat + "," + long);
         }
     ).spread(
         function(response,body){
@@ -52,10 +46,12 @@ getCity()
         }
     ).catch(
         TypeError, function(error){
+            console.log(error)
             console.log("No weather found for your input " + error.name);
         }
     ).catch(
         function(error){
+            console.log(error)
             console.log("Error: " + error);
         }
     ).then(
